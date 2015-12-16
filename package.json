@@ -18,6 +18,7 @@
   "homepage": "https://github.com/getcroissant/photos#readme",
   "dependencies": {
     "aws-sdk": "^2.2.23",
+    "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "mime-types": "^2.1.8",
     "mongoose": "^4.3.1",

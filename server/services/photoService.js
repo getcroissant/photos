@@ -1,7 +1,7 @@
-var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY || 'AWS_ACCESS_KEY';
-var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY || 'AWS_SECRET_KEY';
+var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY || 'AKIAIY66Z6GPB5BGYQAQ';
+var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY || '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';
 var AWS_FOLDER_NAME = process.env.AWS_FOLDER_NAME || 'dev';
-var BUCKET_NAME = process.env.BUCKET_NAME || 'BUCKET_NAME';
+var BUCKET_NAME = process.env.BUCKET_NAME || 'croissant-photos';
 
 var Q = require('q');
 var AWS = require('aws-sdk');
@@ -60,7 +60,7 @@ module.exports = function() {
         return PhotoService.update(photo._id, url, description, tags).then(function(photo) {
 
           return PhotoService.createS3SignedUrl(bucketKey, contentType).then(function(s3) {
-            return Q.resolve({photo: photo, s3Path: s3});
+            return Q.resolve({s3Path: s3});
           });
         });
       });

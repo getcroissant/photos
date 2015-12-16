@@ -2,7 +2,7 @@ var PhotoService = require('../services/photoService.js')();
 
 module.exports = function(app) {
 
-  app.post('/api/photo', function(req, res, next) {
+  app.post('/api/photos', function(req, res, next) {
     var contentType = req.body.contentType;
     var description = req.body.description;
     var tags = req.body.tags;
@@ -14,7 +14,7 @@ module.exports = function(app) {
     }).done();
   });
 
-  app.get('/api/photo/:photoId', function(req, res, next) {
+  app.get('/api/photos/:photoId', function(req, res, next) {
     var photoId = req.params.photoId;
 
     PhotoService.findById(photoId).then(function(photo) {
@@ -24,19 +24,20 @@ module.exports = function(app) {
     }).done();
   });
 
-  app.put('/api/photo/:photoId', function(req, res, next) {
+  app.put('/api/photos/:photoId', function(req, res, next) {
     var photoId = req.params.photoId;
     var url = req.body.url;
+    var description = req.body.description;
     var tags = req.body.tags;
 
-    PhotoService.update(photoId, url, tags).then(function(photo) {
+    PhotoService.update(photoId, url, description, tags).then(function(photo) {
       return res.json(photo);
     }).fail(function(err) {
       return res.error(err);
     }).done();
   });
 
-  app.delete('/api/photo/:photoId', function(req, res, next) {
+  app.delete('/api/photos/:photoId', function(req, res, next) {
     var photoId = req.params.photoId;
 
     PhotoService.remove(photoId).then(function(photo) {
