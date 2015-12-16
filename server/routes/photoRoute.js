@@ -3,10 +3,11 @@ var PhotoService = require('../services/photoService.js')();
 module.exports = function(app) {
 
   app.post('/api/photo', function(req, res, next) {
-    var url = req.body.url;
+    var contentType = req.body.contentType;
+    var description = req.body.description;
     var tags = req.body.tags;
 
-    PhotoService.create(url, tags).then(function(photo) {
+    PhotoService.create(contentType, description, tags).then(function(photo) {
       return res.json(photo)
     }).fail(function(err) {
       return res.error(err);
@@ -25,9 +26,10 @@ module.exports = function(app) {
 
   app.put('/api/photo/:photoId', function(req, res, next) {
     var photoId = req.params.photoId;
+    var url = req.body.url;
     var tags = req.body.tags;
 
-    PhotoService.update(photoId, tags).then(function(photo) {
+    PhotoService.update(photoId, url, tags).then(function(photo) {
       return res.json(photo);
     }).fail(function(err) {
       return res.error(err);

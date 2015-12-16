@@ -3,9 +3,12 @@ var ObjectId = mongoose.Schema.Types.ObjectId;
 var Mixed = mongoose.Schema.Types.Mixed;
 
 var photoSchema = new mongoose.Schema({
-  url: {type: String, required: true},
-  created: {type: Date, default: Date.now},
-  tags: [String]
+  url: String,
+  description: String,
+  tags: [String],
+  contentType: String,
+  created: {type: Date, default: Date.now}
+
 });
 
 module.exports = mongoose.model('Photo', photoSchema);

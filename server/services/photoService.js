@@ -1,4 +1,12 @@
+var AWS_ACCESS_KEY = process.env.AWS_ACCESS_KEY || 'AWS_ACCESS_KEY';
+var AWS_SECRET_KEY = process.env.AWS_SECRET_KEY || 'AWS_SECRET_KEY';
+var AWS_FOLDER_NAME = process.env.AWS_FOLDER_NAME || 'dev';
+var BUCKET_NAME = process.env.BUCKET_NAME || 'BUCKET_NAME';
+
 var Q = require('q');
+var AWS = require('aws-sdk');
+var mime = require('mime-types');
+
 var Error = require('../error.js');
 var Photo = require('../models/photo.js');
 
@@ -38,18 +46,46 @@ module.exports = function() {
       });
     },
 
-    create: function(url, tags) {
-      var data = {
-        url: url,
-        tags: tags
-      };
+    create: function(contentType, description, tags) {
+      var directory = 'photos';
+      var fileExtension = mime.extension(contentType);
 
-      return PhotoService._create(data);
+      var data = {
+        contentType: contentType
+      };
+      return PhotoService._create(data).then(function(photo) {
+        var bucketKey = AWS_FOLDER_NAME + '/' + directory + '/' + photo._id + '.' + fileExtension;
+        var url = 'https://s3.amazonaws.com/' + BUCKET_NAME + '/' + bucketKey;
+
+        return PhotoService.update(photo._id, url, description, tags).then(function(photo) {
+
+          return PhotoService.createS3SignedUrl(bucketKey, contentType).then(function(s3) {
+            return Q.resolve({photo: photo, s3Path: s3});
+          });
+        });
+      });
     },
 
-    update: function(id, tags) {
+    createS3SignedUrl: function(bucketKey, contentType) {
+      return Q.promise(function(resolve, reject) {
+        var data = {
+          Bucket: BUCKET_NAME,
+          Key: bucketKey,
+          Expires: 60,
+          ContentType: contentType,
+          ACL: 'public-read'
+        };
+        var s3 = new AWS.S3({accessKeyId: AWS_ACCESS_KEY, secretAccessKey: AWS_SECRET_KEY});
+        s3.getSignedUrl('putObject', data, function(err, data) {
+          if(err) return reject(Error.AWS_FAILURE);
+          return resolve(data);
+        });
+      });
+    },
+
+    update: function(id, url, description, tags) {
       var condition = {_id: id};
-      var update = {tags: tags};
+      var update = {url: url, description: description, tags: tags};
 
       return PhotoService._update(condition, update);
     },
