@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var path = require('path');
 
-var HTTP_PORT = process.env.PORT || 3000;
+var HTTP_PORT = process.env.SERVER_PORT || 3000;
 var MONGODB_URL = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/photo-dev';
 
 //Setting up views engine

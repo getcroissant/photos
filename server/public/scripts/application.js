@@ -9,7 +9,7 @@ var angularCookies = require('angular-cookies');
 //Utilities
 var moment = require('moment');
 
-var app = angular.module('website', [angularCookies]);
+var app = angular.module('photos', [angularCookies]);
 
 //Directives
 app.directive('confirmClick', require('./directives/confirmClick'));
@@ -26,3 +26,4 @@ app.factory('Profile', require('./factories/profile'));
 app.controller('HeaderController', require('./controllers/headerController'));
 app.controller('FooterController', require('./controllers/footerController'));
 app.controller('SplashController', require('./controllers/splashController'));
+app.controller('PhotoController', require('./controllers/photoController'));

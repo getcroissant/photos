@@ -22,10 +22,21 @@ module.exports = function() {
       return Q.promise(function(resolve, reject) {
         Photo.findOne(condition, function(err, obj) {
           if(err) return reject(Error.DATABASE);
+          if(!obj) return reject(Error.NOT_FOUND);
           return resolve(obj);
         });
       });
     },
+
+    _find: function(condition) {
+      return Q.promise(function(resolve, reject) {
+        Photo.find(condition, function(err, obj) {
+          if(err) return reject(Error.DATABASE);
+          return resolve(obj);
+        });
+      });
+    },
+
 
     _update: function(condition, update, options) {
       return Q.promise(function(resolve, reject) {
@@ -98,6 +109,11 @@ module.exports = function() {
     findById: function(id) {
       var condition = {_id: id};
       return PhotoService._findOne(condition);
+    },
+
+    findPhotos: function() {
+      var condition = {};
+      return PhotoService._find(condition);
     },
 
     generate: function() {

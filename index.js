@@ -1,2 +1,2 @@
-var api = require('api')(4000);
+var api = require('api');
 var server = require('server');
