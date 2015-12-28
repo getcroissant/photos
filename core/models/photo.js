@@ -8,7 +8,6 @@ var photoSchema = new mongoose.Schema({
   tags: [String],
   contentType: String,
   created: {type: Date, default: Date.now}
-
 });
 
 module.exports = mongoose.model('Photo', photoSchema);

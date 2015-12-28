@@ -1,5 +1,5 @@
 {
-  "name": "photos",
+  "name": "core",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/getcroissant/photos#readme",
   "dependencies": {
-    "api": "api",
-    "server": "server"
+    "aws-sdk": "^2.2.23",
+    "mime-types": "^2.1.8",
+    "mongoose": "^4.3.1",
+    "q": "^1.4.1"
   }
 }
