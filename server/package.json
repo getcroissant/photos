@@ -4,23 +4,40 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "postinstall": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/getcroissant/photos.git"
   },
-  "author": "",
+  "author": "adam@getcroissant.com",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/getcroissant/photos/issues"
   },
   "homepage": "https://github.com/getcroissant/photos#readme",
   "dependencies": {
+    "angular": "^1.4.7",
+    "angular-cookies": "^1.4.7",
     "body-parser": "^1.14.1",
+    "bootstrap": "^3.3.6",
     "core": "core",
     "express": "^4.13.3",
+    "font-awesome": "^4.4.0",
+    "gulp": "^3.9.0",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-sass": "^2.1.0",
+    "gulp-uglify": "^1.4.2",
     "jade": "^1.11.0",
+    "jquery": "^2.1.4",
+    "moment": "^2.10.6",
+    "photoswipe": "^4.1.0",
+    "slick-carousel": "^1.5.8",
     "mongoose": "^4.3.1",
     "path": "^0.12.7"
   }
