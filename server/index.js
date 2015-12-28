@@ -1,31 +1,28 @@
-var express= require('express');
+var express = require('express');
 var app = require('express')();
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var path = require('path');
 
-module.exports = function(port, mongodb) {
+var HTTP_PORT = process.env.PORT || 3000;
+var MONGODB_URL = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/photo-dev';
 
-  var HTTP_PORT = port || process.env.PORT || 3000;
-  var MONGODB_URL = mongodb || process.env.MONGOLAB_URI || 'mongodb://localhost:27017/photo-dev';
+//Setting up views engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
-  //Setting up views engine
-  app.set('views', path.join(__dirname, 'views'));
-  app.set('view engine', 'jade');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: true}));
+//Public folder
+app.use(express.static(path.join(__dirname, 'public')));
 
-  //Public folder
-  app.use(express.static(path.join(__dirname, 'public')));
+require('./routes/photoRoute')(app);
 
-  require('./routes/photoRoute')(app);
+mongoose.connect(MONGODB_URL, function(err) {
+  if(err) throw err;
 
-  mongoose.connect(MONGODB_URL, function(err) {
-    if(err) throw err;
-
-    app.listen(HTTP_PORT, function() {
-      console.log("Photo server running");
-    });
+  app.listen(HTTP_PORT, function() {
+    console.log("Photo server running");
   });
-};
+});
