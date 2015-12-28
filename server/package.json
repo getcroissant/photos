@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/getcroissant/photos#readme",
   "dependencies": {
-    "core": "core",
     "body-parser": "^1.14.1",
+    "core": "core",
     "express": "^4.13.3",
-    "mongoose": "^4.3.1"
+    "jade": "^1.11.0",
+    "mongoose": "^4.3.1",
+    "path": "^0.12.7"
   }
 }

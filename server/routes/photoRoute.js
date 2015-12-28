@@ -2,6 +2,21 @@ var PhotoService = require('core').PhotoService();
 
 module.exports = function(app) {
 
+  app.get('/', function(req, res, next) {
+    res.render('index', {title: 'Coworking Photos', youAreUsingJade: true});
+  });
+
+  app.get('/photo/:photoId', function(req, res, next) {
+    var photoId = req.params.photoId;
+
+    PhotoService.findById(photoId).then(function(photo) {
+      return res.render('photo', {title: 'Photo', photo: photo});
+    }).fail(function(err) {
+      console.log(err);
+      return next(err);
+    }).done();
+  });
+
   app.post('/api/photos', function(req, res, next) {
     var contentType = req.body.contentType;
     var description = req.body.description;
@@ -20,7 +35,7 @@ module.exports = function(app) {
     PhotoService.findById(photoId).then(function(photo) {
       return res.json(photo);
     }).fail(function(err) {
-      return res.error(err);
+      return next(err);
     }).done();
   });
 
